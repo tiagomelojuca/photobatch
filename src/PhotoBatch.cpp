@@ -9,6 +9,7 @@ namespace Args
 {
     namespace Flags
     {
+        static constexpr const char* help = "help";
         static constexpr const char* rename = "rename";
         static constexpr const char* convert = "convert";
         static constexpr const char* resize = "resize";
@@ -62,24 +63,24 @@ void validateArguments(const ArgumentParser& argParser)
 
     if (numActiveModes != 1) {
         throw std::invalid_argument(
-            "ERROR: At least one mode must be active (and not more than one)"
+            "At least one mode must be active (and not more than one)"
         );
     }
 
     const std::string folder = argParser.getOptionAs<const std::string>(Args::Options::folder);
 
     if (folder.empty()) {
-        throw std::invalid_argument("ERROR: Folder path not specified");
+        throw std::invalid_argument("Folder path not specified");
     }
 
     if (!std::filesystem::exists(folder)) {
-        throw std::invalid_argument("ERROR: Specified folder doesn't exist");
+        throw std::invalid_argument("Specified folder doesn't exist");
     }
 
     const std::string filter = argParser.getOptionAs<const std::string>(Args::Options::filter);
 
     if (!filter.empty() && hasInvalidChars(filter)) {
-        throw std::invalid_argument("ERROR: Filter cannot contain " + getInvalidChars());
+        throw std::invalid_argument("Filter cannot contain " + getInvalidChars());
     }
 
     if (isResizeModeOn) {
@@ -90,15 +91,15 @@ void validateArguments(const ArgumentParser& argParser)
             width = argParser.getOptionAs<int>(Args::Options::width);
             height = argParser.getOptionAs<int>(Args::Options::height);
         } catch (const std::invalid_argument&) {
-            throw std::invalid_argument("ERROR: Width and height must be numbers (int)");
+            throw std::invalid_argument("Width and height must be numbers (int)");
         }
 
         if (width <= 0 || height <= 0) {
-            throw std::invalid_argument("ERROR: Width and height must be greater than 0");
+            throw std::invalid_argument("Width and height must be greater than 0");
         }
 
         if (filter.empty()) {
-            throw std::invalid_argument("ERROR: A filter must be provided in resize mode");
+            throw std::invalid_argument("A filter must be provided in resize mode");
         }
     }
 
@@ -108,15 +109,15 @@ void validateArguments(const ArgumentParser& argParser)
         try {
             float amount = argParser.getOptionAs<float>(Args::Options::amount);
         } catch (const std::invalid_argument&) {
-            throw std::invalid_argument("ERROR: Amount must be a number (float)");
+            throw std::invalid_argument("Amount must be a number (float)");
         }
 
         if (amount <= 0.0f) {
-            throw std::invalid_argument("ERROR: Amount must be greater than 0");
+            throw std::invalid_argument("Amount must be greater than 0");
         }
 
         if (filter.empty()) {
-            throw std::invalid_argument("ERROR: A filter must be provided in scale mode");
+            throw std::invalid_argument("A filter must be provided in scale mode");
         }
     }
 
@@ -127,15 +128,15 @@ void validateArguments(const ArgumentParser& argParser)
         try {
             startNumber = argParser.getOptionAs<int>(Args::Options::startNumber);
         } catch (const std::invalid_argument&) {
-            throw std::invalid_argument("ERROR: Start number must be a number (int)");
+            throw std::invalid_argument("Start number must be a number (int)");
         }
 
         if (startNumber < 0) {
-            throw std::invalid_argument("ERROR: Start number must be greater or equal than 0");
+            throw std::invalid_argument("Start number must be greater or equal than 0");
         }
 
         if (prefix.empty() || hasInvalidChars(prefix)) {
-            throw std::invalid_argument("ERROR: A prefix must be provided and cannot contain " + getInvalidChars());
+            throw std::invalid_argument("A prefix must be provided and cannot contain " + getInvalidChars());
         }
     }
 
@@ -153,11 +154,11 @@ void validateArguments(const ArgumentParser& argParser)
                                             to) != std::end(convertOptions);
 
         if (!isArgFromValid || !isArgToValid) {
-            throw std::invalid_argument("ERROR: From/to must point to a qualified image format");
+            throw std::invalid_argument("From/to must point to a qualified image format");
         }
 
         if (from == to) {
-            throw std::invalid_argument("ERROR: From/to cannot be the same image format");
+            throw std::invalid_argument("From/to cannot be the same image format");
         }
     }
 }
@@ -166,6 +167,7 @@ int main(int argc, char* argv[]) {
 
     ArgumentParser argParser;
 
+    argParser.registerFlag(Args::Flags::help);
     argParser.registerFlag(Args::Flags::rename);
     argParser.registerFlag(Args::Flags::convert);
     argParser.registerFlag(Args::Flags::resize);
@@ -185,12 +187,31 @@ int main(int argc, char* argv[]) {
     argParser.registerOption(Args::Options::from);
     argParser.registerOption(Args::Options::to);
 
+    argParser.setHelpMessage(
+       R"(USAGE: photobatch --[rename|convert|resize|scale] [options]
+
+       Photobatch comes with 4 operation modes.
+       At least one (and no more than one) must be active.
+       To activate a mode, use some of following flags:
+    
+       --rename         rename a set of files
+       --scale          scale a set of files
+       --convert        convert a set of files
+       --resize         resize a set of files)"
+    );
+
     argParser.parse(argc, argv);
+
+    if (argParser.getFlag(Args::Flags::help)) {
+        std::cout << argParser.getHelpMessage() << std::endl;
+        return 0;
+    }
 
     try {
         validateArguments(argParser);
     } catch (const std::exception& exception) {
-        std::cerr << exception.what() << std::endl;
+        std::cerr << "ERROR: " << exception.what() << std::endl;
+        std::cerr << "For more information about the usage, check --help" << std::endl;
     }
 
     return 0;

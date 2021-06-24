@@ -26,6 +26,9 @@ public:
     int getOptionAs(const std::string& option) const
     { return getOptionAsInt(option); }
 
+    void setHelpMessage(const std::string& helpMessage);
+    const std::string& getHelpMessage() const;
+
     void parse(int argc, char* argv[]);
 
 private:
@@ -35,6 +38,7 @@ private:
 
     std::map<std::string, bool> m_flags;
     std::map<std::string, std::string> m_options;
+    std::string m_helpMessage;
 
 };
 
