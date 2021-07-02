@@ -29,3 +29,6 @@ add_executable(
 # set_property(TARGET photobatch PROPERTY CXX_STANDARD 17)
 # But we are going to use a specialized form of it instead
 set_target_properties(photobatch PROPERTIES CXX_STANDARD 17)
+
+# Use GTest
+add_subdirectory(tests)
