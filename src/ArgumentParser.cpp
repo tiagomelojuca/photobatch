@@ -3,7 +3,7 @@
 
 void ArgumentParser::registerFlag(const std::string& flag)
 {
-    if(!flag.empty()) {
+    if(!flag.empty() && !Utils::hasWhitespaces(flag)) {
         m_flags[flag] = false;
     }
 }
