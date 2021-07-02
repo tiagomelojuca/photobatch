@@ -15,6 +15,15 @@ void ArgumentParser::registerOption(const std::string& option)
     }
 }
 
+bool ArgumentParser::isFlagRegistered(const std::string& flag) const
+{
+    if(!flag.empty()) {
+        return m_flags.count(flag) == 1;
+    }
+
+    return false;
+}
+
 bool ArgumentParser::getFlag(const std::string& flag) const
 {
     if(!flag.empty()) {
