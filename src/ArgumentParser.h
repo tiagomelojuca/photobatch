@@ -8,8 +8,9 @@ class ArgumentParser
 {
 public:
     void registerFlag(const std::string& flag);
-    void registerOption(const std::string& flag);
+    void registerOption(const std::string& option);
     bool isFlagRegistered(const std::string& flag) const;
+    bool isOptionRegistered(const std::string& option) const;
     bool getFlag(const std::string& flag) const;
 
     template<typename T>
