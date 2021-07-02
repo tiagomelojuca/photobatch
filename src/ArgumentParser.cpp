@@ -10,7 +10,7 @@ void ArgumentParser::registerFlag(const std::string& flag)
 
 void ArgumentParser::registerOption(const std::string& option)
 {
-    if(!option.empty()) {
+    if(!option.empty() && !Utils::hasWhitespaces(option)) {
         m_options[option] = "";
     }
 }
