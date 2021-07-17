@@ -18,6 +18,7 @@ public:
 protected:
     virtual void RunImpl() = 0;
 
+private:
     std::string m_filter;
     std::string m_folder;
 };
