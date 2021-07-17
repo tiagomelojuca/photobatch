@@ -22,6 +22,8 @@ add_executable(
     "${SRC_DIR}/ArgumentParser.cpp"
     "${SRC_DIR}/Utils.h"
     "${SRC_DIR}/Utils.cpp"
+    "${SRC_DIR}/Mode.h"
+    "${SRC_DIR}/Mode.cpp"
 )
 
 # Setting the C++ standard that will be used in our target
