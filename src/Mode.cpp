@@ -6,6 +6,7 @@
 #include <iostream>
 #include "ArgumentParser.h"
 #include "RenameMode.h"
+#include "ConvertMode.h"
 
 // NOTE: Mode should not know about its concrete implementations
 // Circular dependency should always be avoided, but I'd like
@@ -204,6 +205,15 @@ std::unique_ptr<Mode> createMode(const ArgumentParser& argParser)
         if (from == to) {
             throw std::invalid_argument("From/to cannot be the same image format");
         }
+
+        const std::map<std::string, ConvertMode::Format> parsedConvertOptions = {
+            { "jpg", ConvertMode::Format::JPG },
+            { "png", ConvertMode::Format::PNG }
+        };
+
+        return std::make_unique<ConvertMode>(filter, folder,
+                                             parsedConvertOptions.at(from),
+                                             parsedConvertOptions.at(to));
     }
 
     return nullptr;
