@@ -36,3 +36,7 @@ set_target_properties(photobatch PROPERTIES CXX_STANDARD 17)
 
 # Use GTest
 add_subdirectory(tests)
+
+# Use stb
+add_subdirectory(external)
+target_link_libraries(photobatch PRIVATE stb)
