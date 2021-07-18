@@ -109,7 +109,7 @@ std::unique_ptr<Mode> createMode(const ArgumentParser& argParser)
         float amount = 0.0f;
 
         try {
-            float amount = argParser.getOptionAs<float>(Args::Options::amount);
+            amount = argParser.getOptionAs<float>(Args::Options::amount);
         } catch (const std::invalid_argument&) {
             throw std::invalid_argument("Amount must be a number (float)");
         }
