@@ -10,11 +10,18 @@ echo ^| RUNNING OUTPUT EXECUTABLE              ^|
 echo +----------------------------------------+
 echo.
 
+@REM photobatch ^
+@REM            --rename ^
+@REM            --folder=C:\Users\Tiago\Desktop\TMP\ccp-posts ^
+@REM            --filter=.png ^
+@REM            --prefix=test_ ^
+@REM            --snum=1
+
 photobatch ^
-           --rename ^
+           --convert ^
            --folder=C:\Users\Tiago\Desktop\TMP\ccp-posts ^
            --filter=.png ^
-           --prefix=test_ ^
-           --snum=1
+           --from=png ^
+           --to=jpg
 
 echo.
