@@ -7,6 +7,12 @@
 #include "ArgumentParser.h"
 #include "RenameMode.h"
 
+// NOTE: Mode should not know about its concrete implementations
+// Circular dependency should always be avoided, but I'd like
+// to keep the original app design, and since the course instructor
+// did this way for the sake of simplicity, I'm going to keep it
+// For myself, just remember to use a factory class in these cases
+
 Mode::Mode(const std::string& filter, const std::string& folder)
     : m_filter{ filter }
     , m_folder{ folder }
@@ -42,6 +48,29 @@ void Mode::Run()
     std::chrono::milliseconds elapsedTimeMs = std::chrono::duration_cast<std::chrono::milliseconds>(elapsedTime);
 
     std::cout << "[" << GetModeName() << "] " << "Elapsed Time: " << elapsedTimeMs.count() << "ms" << std::endl;
+}
+
+std::vector<std::filesystem::path> Mode::GetFiles(const std::filesystem::path& extension) const
+{
+    std::vector<std::filesystem::path> files;
+    int numSkippedFiles = 0;
+
+    for(const std::filesystem::directory_entry& entry : std::filesystem::directory_iterator(GetFolder())) {
+        const bool isFile = std::filesystem::is_regular_file(entry.path());
+        const bool matchFilter = GetFilter().empty() || entry.path().string().find(GetFilter()) != std::string::npos;
+        const bool matchExtension = extension.empty() || entry.path().extension() == extension;
+
+        if(isFile && matchFilter && matchExtension) {
+            files.push_back(entry.path());
+        } else {
+            numSkippedFiles++;
+        }
+    }
+
+    std::cout << "[" << GetModeName() << "] " << "Files found   : " << files.size() << std::endl;
+    std::cout << "[" << GetModeName() << "] " << "Files skipped : " << numSkippedFiles << std::endl;
+
+    return files;
 }
 
 const std::string& getInvalidChars()
