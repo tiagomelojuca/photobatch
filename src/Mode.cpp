@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <filesystem>
 #include "ArgumentParser.h"
+#include "RenameMode.h"
 
 Mode::Mode(const std::string& filter, const std::string& folder)
     : m_filter{ filter }
@@ -140,6 +141,8 @@ std::unique_ptr<Mode> createMode(const ArgumentParser& argParser)
         if (prefix.empty() || hasInvalidChars(prefix)) {
             throw std::invalid_argument("A prefix must be provided and cannot contain " + getInvalidChars());
         }
+
+        return std::make_unique<RenameMode>(filter, folder, prefix, startNumber);
     }
 
     if (isConvertModeOn) {

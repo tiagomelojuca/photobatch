@@ -24,6 +24,8 @@ add_executable(
     "${SRC_DIR}/Utils.cpp"
     "${SRC_DIR}/Mode.h"
     "${SRC_DIR}/Mode.cpp"
+    "${SRC_DIR}/RenameMode.h"
+    "${SRC_DIR}/RenameMode.cpp"
 )
 
 # Setting the C++ standard that will be used in our target
