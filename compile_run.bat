@@ -17,11 +17,11 @@ echo.
 @REM            --prefix=test_ ^
 @REM            --snum=1
 
-photobatch ^
-           --convert ^
-           --folder=C:\Users\Tiago\Desktop\TMP\ccp-posts ^
-           --filter=.png ^
-           --from=png ^
-           --to=jpg
+@REM photobatch ^
+@REM            --convert ^
+@REM            --folder=C:\Users\Tiago\Desktop\TMP\ccp-posts ^
+@REM            --filter=.jpg ^
+@REM            --from=jpg ^
+@REM            --to=png
 
 echo.
