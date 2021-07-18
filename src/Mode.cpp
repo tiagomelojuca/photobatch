@@ -1,7 +1,9 @@
 #include "Mode.h"
 #include <array>
+#include <chrono>
 #include <algorithm>
 #include <filesystem>
+#include <iostream>
 #include "ArgumentParser.h"
 #include "RenameMode.h"
 
@@ -30,8 +32,16 @@ const std::string& Mode::GetFolder() const
 
 void Mode::Run()
 {
-    // TODO: exec time measure inside this method
+    using TClock = std::chrono::high_resolution_clock;
+
+    TClock::time_point startTime = TClock::now();
     RunImpl();
+    TClock::time_point endTime = TClock::now();
+
+    TClock::duration elapsedTime = endTime - startTime;
+    std::chrono::milliseconds elapsedTimeMs = std::chrono::duration_cast<std::chrono::milliseconds>(elapsedTime);
+
+    std::cout << "[" << GetModeName() << "] " << "Elapsed Time: " << elapsedTimeMs.count() << "ms" << std::endl;
 }
 
 const std::string& getInvalidChars()
