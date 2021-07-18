@@ -28,6 +28,8 @@ add_executable(
     "${SRC_DIR}/RenameMode.cpp"
     "${SRC_DIR}/ConvertMode.h"
     "${SRC_DIR}/ConvertMode.cpp"
+    "${SRC_DIR}/ResizeMode.h"
+    "${SRC_DIR}/ResizeMode.cpp"
 )
 
 # Setting the C++ standard that will be used in our target

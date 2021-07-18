@@ -7,6 +7,7 @@
 #include "ArgumentParser.h"
 #include "RenameMode.h"
 #include "ConvertMode.h"
+#include "ResizeMode.h"
 
 // NOTE: Mode should not know about its concrete implementations
 // Circular dependency should always be avoided, but I'd like
@@ -144,6 +145,8 @@ std::unique_ptr<Mode> createMode(const ArgumentParser& argParser)
         if (filter.empty()) {
             throw std::invalid_argument("A filter must be provided in resize mode");
         }
+
+        return std::make_unique<ResizeMode>(filter, folder, width, height);
     }
 
     if (isScaleModeOn) {
