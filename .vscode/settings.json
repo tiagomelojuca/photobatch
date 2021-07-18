@@ -78,6 +78,11 @@
         "complex": "cpp",
         "bitset": "cpp",
         "deque": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "cwctype": "cpp",
+        "filesystem": "cpp",
+        "forward_list": "cpp",
+        "fstream": "cpp",
+        "unordered_set": "cpp"
     }
 }
