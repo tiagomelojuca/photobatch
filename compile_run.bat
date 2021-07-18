@@ -24,4 +24,11 @@ echo.
 @REM            --from=jpg ^
 @REM            --to=png
 
+@REM photobatch ^
+@REM            --resize ^
+@REM            --folder=C:\Users\Tiago\Desktop\TMP\ccp-posts ^
+@REM            --filter=.jpg ^
+@REM            --width=500 ^
+@REM            --height=500
+
 echo.
